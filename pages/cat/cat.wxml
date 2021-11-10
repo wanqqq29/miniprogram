@@ -1,0 +1,65 @@
+<!--pages/index/cat/cat.wxml-->
+<view class="body" wx:if="{{flag}}">
+  <view class="header-pic">
+    <image src="{{miaopf.header_pic}}"></image>
+  </view>
+
+  <view class="acontent">
+    <view class="cat_name"><span>{{miaopf.name}}</span>
+      <view>
+        <!--当前为停止状态  -->
+        <view class='play' wx:if="{{isplay==false}}" bindtap='play'>
+          <image style="width:100%;height:100%;border-radius:50%;" src='/pages/images/play.png' />
+        </view>
+        <!--当前为播放状态  -->
+        <view class='play' wx:if="{{isplay==true}}" bindtap='stop'>
+          <image style="width:100%;height:100%;border-radius:50%;" src='/pages/images/pause.png' />
+        </view>
+      </view>
+    </view>
+    <view class="maincontent">
+      <view class="l_colume">
+        <view class="label">毛色：<view class="maintext">{{miaopf.color}}</view>
+        </view>
+        <view class="label">状况：<view class="maintext">{{miaopf.health_statue}}</view>
+        </view>
+        <view class="label">第一次目击：<view class="maintext">{{miaopf.first_see}}</view>
+        </view>
+        <view class="label">外貌：<view class="maintext">{{miaopf.apprence}}</view>
+        </view>
+        <view class="label">关系：<view class="maintext">{{miaopf.realtionshap[0].text}}</view>
+        </view>
+      </view>
+
+      <view class="r_colume">
+        <view class="label">性别：<view class="maintext">{{miaopf.sex}}</view>
+        </view>
+        <view class="label">绝育情况：<view class="maintext">{{miaopf.nojj_statue}}</view>
+        </view>
+        <view class="label" wx:if="{{miaopf.nojj_statue =='已绝育'}}">绝育时间：<view class="maintext">{{miaopf.nojj_time}}</view>
+        </view>
+        <view class="label" wx:if="{{miaopf.send =='已绝育'}}">绝育时间：<view class="maintext">{{miaopf.nojj_time}}</view>
+        </view>
+        <view class="label" wx:if="{{miaopf.more}}">性格：<view class="maintext">{{miaopf.more}}</view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+  <view class="ship">
+    <view wx:for="{{miaopf.realtionshap[0].m}}" class="box">
+      <navigator url='/pages/cat/cat?name={{item.name}}'>
+        <image class="avator" src="{{item.avator}}" />
+        {{item.name}}
+      </navigator>
+    </view>
+  </view>
+  <!-- 
+  <view wx:for="{{miaopf.picurl}}" wx:key="index">
+    <image src="{{item}}" class="cat_image"></image>
+  </view> -->
+</view>
+
+<view class="body" wx:if="{{!flag}}">
+没有找到这只小猫猫
+</view>

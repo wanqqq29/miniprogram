@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/about/about",
     "pages/logs/logs",
-    "pages/science/science"
+    "pages/science/science",
+    "pages/List/List",
+    "pages/cat/cat"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -14,7 +16,7 @@
   },
   "sitemapLocation": "sitemap.json",
   "tabBar": {
-    "selectedColor":"#94070a",
+    "selectedColor": "#94070a",
     "color": "#888888",
     "list": [
       {
@@ -31,5 +33,4 @@
       }
     ]
   }
-
 }

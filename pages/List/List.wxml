@@ -1,0 +1,10 @@
+<!--pages/List/List.wxml-->
+<block wx:for="{{catList}}" wx:key="index">
+  <navigator url='/pages/cat/cat?name={{item.name}}'>
+    <view class="catitem">
+      <image class='avator' lazy-load src="{{item.avator_url}}" mode='aspectFill'></image>
+      <view class="cat-name">{{item.name}}</view>
+    </view>
+  </navigator>
+  <view class="divLine"></view>
+</block>
