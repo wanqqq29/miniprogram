@@ -1,0 +1,14 @@
+<!--pages/index/休学/休学.wxml-->
+<view hidden="{{currentTab!==2}}">
+  <block wx:for="{{unknown_catlist}}">
+    <navigator url='/pages/cat/cat?name={{item.name}}'>
+      <view class="catitem">
+        <image class='avator' lazy-load src="{{item.avator_url}}" mode='aspectFill'></image>
+        <view class="cat-name">{{item.name}}</view>
+      </view>
+    </navigator>
+
+    <view class="divLine"></view>
+
+  </block>
+</view>

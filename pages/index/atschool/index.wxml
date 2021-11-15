@@ -6,17 +6,25 @@
 </view>
 
 <view class="navbar">
-  <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+  <navigator wx:for="{{navbar}}" wx:key="index" url='/pages/index/{{item}}/{{item}}' class="item {{currentTab==index ? 'active' : ''}}">{{item}}
+  </navigator>
 </view>
+<!-- 
+<view class="navbar">
+  <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap to">{{item}}</text>
+</view> -->
 
 <!-- 在校 -->
-<view hidden="{{currentTab!==0}}">
+<view>
 
   <text> \n </text>
 
   <view wx:for="{{typegroup}}" wx:key="index">
     <!-- <navigator url='/pages/index/${item.type}'> -->
-    <navigator url='/pages/List/List?type={{item}}'>
+    <navigator url='/pages/List/List?type={{item}}'>  \
+    \
+
+    
       <view class="catitem">
         <image class=' avator' src="{{item.avator_url}}" mode='aspectFill'>
         </image>
@@ -58,7 +66,7 @@
 
 <text> \n </text>
 
-<view hidden="{{currentTab!==1}}">
+<!-- <view hidden="{{currentTab!==1}}">
   <block wx:for="{{fostered_catlist}}" wx:key="index">
     <navigator url='/pages/cat/cat?name={{item.name}}'>
       <view class="catitem">
@@ -68,11 +76,11 @@
     </navigator>
     <view class="divLine"></view>
   </block>
-</view>
+</view> -->
 
 <!-- 休学 -->
 
-<view hidden="{{currentTab!==2}}">
+<!-- <view hidden="{{currentTab!==2}}">
   <block wx:for="{{unknown_catlist}}">
     <navigator url='/pages/cat/cat?name={{item.name}}'>
       <view class="catitem">
@@ -84,11 +92,11 @@
     <view class="divLine"></view>
 
   </block>
-</view>
+</view> -->
 
 <!-- 喵星 -->
 
-<view hidden="{{currentTab!==3}}">
+<!-- <view hidden="{{currentTab!==3}}">
   <block wx:for="{{dead_catlist}}">
     <navigator url='/pages/cat/cat?name={{item.name}}'>
       <view class="catitem">
@@ -100,4 +108,4 @@
     <view class="divLine"></view>
 
   </block>
-</view>
+</view> -->

@@ -25,6 +25,7 @@ Page({
         this.setData({
           miaopf: res.data[0]
         })
+        console.log(res.data);
       } else {
         this.setData({
           flag:false

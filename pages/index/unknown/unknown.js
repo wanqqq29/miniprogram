@@ -1,4 +1,4 @@
-// pages/logs/logs.js
+// pages/index/休学/休学.js
 Page({
 
   /**

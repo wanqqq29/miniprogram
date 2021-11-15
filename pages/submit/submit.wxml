@@ -1,0 +1,143 @@
+<!--pages/submit/submit.wxml-->
+<view class="body">
+  <form catchsubmit="formSubmit" catchreset="formReset">
+    <view class="page-section page-section-gap">
+      <view class="item">
+        <label for="name" class="page-section-title">姓名:</label>
+        <input type="text" class="itemborder" name="name" placeholder="请输入猫咪姓名" />
+      </view>
+
+      <view class="item">
+        <label for="sex">性别：</label>
+        <radio-group name="sex">
+          <label>
+            <radio value="公" checked="true" />公
+          </label>
+          <label>
+            <radio value="母" />母
+          </label>
+        </radio-group>
+      </view>
+
+      <view class="item">
+        <label for="item" class="page-section-title">毛色：</label>
+        <input type="text" class="itemborder" name="color" placeholder="请输入猫咪毛色" />
+      </view>
+
+      <view class="item">
+        <view>
+          <label for="item" class="page-section-title">毛色种类：</label>
+        </view>
+        <input type="text" class="itemborder" name="type" placeholder="纯色/杂色之类" />
+      </view>
+
+      <view class="item">
+        <label for="apprence" class="page-section-title">外貌：</label>
+        <input type="text" class="itemborder" name="apprence" placeholder="请输入猫咪外貌" />
+      </view>
+
+      <view class="item">
+        <label for="group" class="page-section-title">状态：</label>
+        <radio-group name="group" bindchange="groupChange">
+          <label>
+            <radio value="atschool" checked="true" />在校
+          </label>
+          <label>
+            <radio value="fostered" />送养
+          </label>
+          <label>
+            <radio value="unknow" />失踪
+          </label>
+          <label>
+            <radio value="dead" />死亡
+          </label>
+        </radio-group>
+      </view>
+
+
+
+      <view class="item">
+        <view>
+          <label>第一次目击时间:</label>
+        </view>
+        <input type="text" name="first_see" placeholder="例：2021-1-1" class="itemborder" />
+      </view>
+
+      <view class="item" hidden="{{groupFlag != 'fostered'}}">
+        <view>
+          <label>送养时间:</label>
+        </view>
+        <!-- <picker mode="date" value="{{SendDate}}" start="2015-09-01" end="2099-12-31" bindchange="bindSendDataChange" class="itemborder">
+          <view class="picker">
+            {{SendDate}}
+          </view>
+        </picker> -->
+        <input type="text" name="send_time" placeholder="例：2021-1-1\\20年春" class="itemborder" />
+
+      </view>
+
+      <view class="item" hidden="{{groupFlag != 'unknow'}}">
+        <view>
+          <label>失踪时间:</label>
+        </view>
+        <!-- <picker mode="date" value="{{SendDate}}" start="2015-09-01" end="2099-12-31" bindchange="bindSendDataChange" class="itemborder">
+          <view class="picker">
+            {{SendDate}}
+          </view>
+        </picker> -->
+        <input type="text" name="lost_time" placeholder="例：2021-1-1\\20年春" class="itemborder" />
+      </view>
+
+
+      <view class="item" hidden="{{groupFlag != 'dead'}}">
+        <view>
+          <label>死亡时间:</label>
+        </view>
+        <!-- <picker mode="date" value="{{SendDate}}" start="2015-09-01" end="2099-12-31" bindchange="bindSendDataChange" class="itemborder">
+          <view class="picker">
+            {{SendDate}}
+          </view>
+        </picker> -->
+        <input type="text" name="dead_time" placeholder="例：2021-1-1\\20年春" class="itemborder" />
+      </view>
+      <view class="item">
+        <label>是否绝育</label>
+        <switch name="nojj_statue" bindchange="nojjchange"></switch>
+      </view>
+      <view class="item" hidden="{{nojjflag != true}}">
+        <view>
+          <label>绝育时间：</label>
+        </view>
+        <input type="text" name="nojj_time" placeholder="绝育时间" class="itemborder" />
+      </view>
+
+      <view class="item">
+        <view>
+          <label>性格：</label>
+        </view>
+        <input type="text" name="more" placeholder="生人勿近or喜欢被摸" class="itemborder" />
+      </view>
+
+      <view class="item">
+        <label>关系：</label>
+        <input type="text" name="relationship" class="itemborder" />
+
+      </view>
+      <view class="item">
+        <label>相关猫咪:</label>
+        <input type="text" name="m" class="itemborder" placeholder="多个用空格分开"/>
+      </view>
+
+      <view class="item">
+        <button type="primary" bindtap="upload_avator">点击上传猫喵头像</button>
+        <button type="primary" bindtap="upload_pic">点击上传猫咪照片</button>
+      </view>
+
+
+      <view class="btn-area">
+        <button style="margin: 30rpx 0" type="warn" formType="submit">Submit</button>
+        <button style="margin: 30rpx 0" formType="reset">Reset</button>
+      </view>
+    </view>
+  </form>
+</view>

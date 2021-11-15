@@ -1,11 +1,15 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/index/atschool/atschool",
     "pages/about/about",
     "pages/logs/logs",
     "pages/science/science",
     "pages/List/List",
-    "pages/cat/cat"
+    "pages/cat/cat",
+    "pages/submit/submit",
+    "pages/index/unknown/unknown",
+    "pages/index/dead/dead",
+    "pages/index/fostered/fostered"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -21,7 +25,7 @@
     "list": [
       {
         "text": "查猫",
-        "pagePath": "pages/index/index"
+        "pagePath": "pages/index/atschool/atschool"
       },
       {
         "text": "科普",

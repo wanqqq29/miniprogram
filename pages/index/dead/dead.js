@@ -1,4 +1,4 @@
-// pages/logs/logs.js
+// pages/index/喵星/喵星.js
 Page({
 
   /**

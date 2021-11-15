@@ -1,0 +1,28 @@
+/* pages/submit/submit.wxss */
+.item{
+  display: flex;
+  width: 100%;
+  line-height: 50px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.item label{
+  flex: 1;
+}
+.item .itemborder{
+  border-radius: 5px;
+  border: 1px solid gray;
+  flex: 3;
+  height: 30px;
+  margin: auto;
+  justify-content: space-around;
+}
+.item .itemborder .picker{
+  height: 30px;
+  line-height: 30px;
+  padding-left: 20px;
+}
+.item button{
+  width: 100%;
+  margin: 5px 0;
+}

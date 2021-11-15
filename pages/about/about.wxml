@@ -39,6 +39,13 @@
 小程序所有代码开源，使用 MIT License ，可用于商业用途。<text bindtap="copy2" class="copy">点击</text>复制 GitHub 仓库链接后请在浏览器中粘贴打开，GitHub 有详细的教程，还配有完整的教学视频，完全不会代码的同学也能学会使用。
 </view>
 
+
+<view class="head1">提交资料</view>
+<navigator url="/pages/submit/submit">
+<view style="display:flex; justify-content:center; align-items:center;">
+  点我提交信息
+</view>
+</navigator>
 <!-- <text bindtap="saveImage" class="copy">北大猫协</text> -->
 
 
@@ -56,7 +63,9 @@
 <view class="staff">
 小程序开发：circle
 </view>
-
+<view class="staff">
+二开：wanqqq29
+</view>
 <view class="staff">
 猫咪资料统计：橙子じん等</view>
 

@@ -1,0 +1,14 @@
+<!--pages/index/喵星/喵星.wxml-->
+<view hidden="{{currentTab!==3}}">
+  <block wx:for="{{dead_catlist}}">
+    <navigator url='/pages/cat/cat?name={{item.name}}'>
+      <view class="catitem">
+        <image class='avator' lazy-load src="{{item.avator_url}}" mode='aspectFill'></image>
+        <view class="cat-name">{{item.name}}</view>
+      </view>
+    </navigator>
+
+    <view class="divLine"></view>
+
+  </block>
+</view>
