@@ -226,7 +226,8 @@ Page({
     //     "type_avator": "cloud://edj-0gccrj1v90dd2d66.6564-edj-0gccrj1v90dd2d66-1300163012/miao/avator/花灵灵_circle.png"
     //   }
     // ],
-    all_miao:[],
+    all_miao: [],
+    allmiao: [],
     fostered_catlist: [],
     unknown_catlist: [],
     dead_catlist: [],
@@ -262,176 +263,231 @@ Page({
   },
 
 
-  onLoad: function (options) {
-    const db = wx.cloud.database()
-    const $ = db.command.aggregate
 
-    // 查询所有miao
-    db.collection("miao").get().then(res => {
-      console.log(res.data)
-      this.setData({
-        all_miao: res.data
+  // 查询所有miao
+  getListCount: function () {
+    return new Promise((resolve, reject) => {
+      db.collection('miao').count().then(res => {
+        resolve(res.total);
+        console.log(res.total);
+      }).catch(e => {
+        console.log(e)
+        reject("查询失败")
       })
-      for (var i = 0; i < this.data.all_miao.length; i++) {
-        if (this.data.all_miao[i].group == 'atschool') {
-          this.data.atschool_catList.push(this.data.all_miao[i]) //atschool_catList 
-        } else if (this.data.all_miao[i].group == 'fostered') {
-          this.data.fostered_catlist.push(this.data.all_miao[i]) //fostered_catlist
-        } else if (this.data.all_miao[i].group == 'unknow') {
-          this.data.unknown_catlist.push(this.detail.all_miao[i]) //unknown_catlist
-        } else if (this.data.all_miao[i].group == 'dead') {
-          this.data.dead_catlist.push(this.data.all_miao[i]) //dead_catlist
-        }
+    })
+  },
+  //单次查询
+  getListIndexSkip: function (skip) {
+    return new Promise((resolve, reject) => {
+      let statusList = []
+      let selectPromise;
+      if (skip > 0) {
+        selectPromise = db.collection('miao').skip(skip).get()
+      } else {
+        //skip值为0时，会报错
+        selectPromise = db.collection('miao').get()
       }
-  
-      //查询在校miao种类
-      for (var i = 0; i < this.data.atschool_catList.length; i++) {
-        if (this.data.typegroup.includes(this.data.atschool_catList[i].type)) {} else {
-          this.data.typegroup.push(this.data.atschool_catList[i].type)
-          this.data.typeindex.push({
-            "typename": this.data.atschool_catList[i].type,
-            "typeurl": this.data.atschool_catList[i].avator_url
+      selectPromise.then(res => {
+        resolve(res.data);
+      }).catch(e => {
+        console.error(e)
+        reject("查询失败!")
+      })
+    })
+  },
+  getListCount() {
+    then(res => {
+      let count = res
+      let list = []
+      for (let i = 0; i < count; i += 20) {
+        getListIndexSkip(openid, i).then(res => {
+            list = list.concat(res);
+            if (list.length == count) {
+              resolve(list)
+            }
           })
-          console.log(this.data.typeindex);
-  
-        }
-      }
-      for (var i = 0; i < this.data.typegroup; i++) {}
-      this.setData({
-        atschool_catList: this.data.atschool_catList,
-        fostered_catlist: this.data.fostered_catlist,
-        unknown_catlist: this.data.unknown_catlist,
-        dead_catlist: this.data.dead_catlist,
-        typeindex: this.data.typeindex,
-      })
-    })
-    
-
-
-
-    // //查询在校miao列表
-    // db.collection("miao").where({
-    //     group: 'atschool'
-    //   }).get().then(res => { //请求成功
-    //     this.setData({
-    //       at_school: res.data
-    //     })
-    // for (var i = 0; i < this.data.at_school.length; i++) {
-    //   if (this.data.typegroup.includes(this.data.at_school[i].type)) {
-
-    //   } else {
-    //     this.data.typegroup.push(this.data.at_school[i].type)
-    //     this.data.avatorgroup.push(this.data.at_school[i].avator_url)
-    //   }
-    // }
-    //     console.log(this.data.typegroup)
-    //     console.log(this.data.avatorgroup)
-
-    //   })
-    //   .catch(err => { //请求失败
-    //     console.log(err)
-    //   })
-
-    //查询数据库中所有的毛色
-    // db.collection("miao").aggregate().group({
-    //     _id: null,
-    //     typegroup: $.addToSet('$type'),
-    //     typeavator: $.addToSet('$type_avator')
-    //   }).end()
-    //   .then(res => { //请求成功
-    //     this.setData({
-    //       typegroup: res.list[0].typegroup
-    //     })
-    //   })
-    //   .catch(err => { //请求失败
-    //     console.log(err)
-    //   })
-
-
-    // //获取毕业miao
-    // db.collection('miao').where({
-    //   group: 'fostered'
-    // }).get().then(res => {
-    //   this.setData({
-    //     fostered_catlist: res.data
-    //   })
-    // })
-    // //获取休学miao
-    // db.collection('miao').where({
-    //   group: 'unknown'
-    // }).get().then(res => {
-    //   this.setData({
-    //     unknown_catlist: res.data
-    //   })
-    // })
-    // //获取喵星miao
-    // db.collection('miao').where({
-    //   group: 'dead'
-    // }).get().then(res => {
-    //   this.setData({
-    //     dead_catlist: res.data
-    //   })
-    // })
-  },
-
-
-
-
-  //转发此页面的设置
-  onShareAppMessage: function (ops) {
-    if (ops.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(ops.target)
-    }
-    return {
-      path: 'pages/index/index', // 路径，传递参数到指定页面。
-      success: function (res) {
-        // 转发成功
-        console.log("转发成功:" + JSON.stringify(res));
-      },
-      fail: function (res) {
-        // 转发失败
-        console.log("转发失败:" + JSON.stringify(res));
-      }
-    }
-  },
-
-  // 转发到朋友圈
-  onShareTimeline: function (res) {
-    if (ops.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(ops.target)
-    }
-    return {
-      path: 'pages/index/index', // 路径，传递参数到指定页面。
-      success: function (res) {
-        // 转发成功
-        console.log("转发成功:" + JSON.stringify(res));
-      },
-      fail: function (res) {
-        // 转发失败
-        console.log("转发失败:" + JSON.stringify(res));
-      }
-    }
-  },
-
-  // 搜索栏输入名字后页面跳转
-  bindconfirmT: function (e) {
-    if (e.detail.value) {
-      wx.navigateTo({
-        url: '/pages/cat/cat?name=' + e.detail.value
-      })
-    }
-  },
-  copyTBL: function (e) {
-    var self = this;
-    wx.setClipboardData({
-      data: '北大猫协', //需要复制的内容
-      success: function (res) {
-        // self.setData({copyTip:true}),
-
+          .catch(e => {
+            console.error(e)
+            reject("查询失败")
+          })
       }
     })
   },
+
+
+
+onLoad: function (options) {
+  const db = wx.cloud.database()
+  const $ = db.command.aggregate
+  const MAX_LIMIT = 100
+
+
+
+  // db.collection("miao").get().then(res => {
+  //   console.log(res.data)
+  //   this.setData({
+  //     all_miao: res.data
+  //   })
+  //   for (var i = 0; i < this.data.all_miao.length; i++) {
+  //     if (this.data.all_miao[i].group == 'atschool') {
+  //       this.data.atschool_catList.push(this.data.all_miao[i]) //atschool_catList 
+  //     } else if (this.data.all_miao[i].group == 'fostered') {
+  //       this.data.fostered_catlist.push(this.data.all_miao[i]) //fostered_catlist
+  //     } else if (this.data.all_miao[i].group == 'unknow') {
+  //       this.data.unknown_catlist.push(this.detail.all_miao[i]) //unknown_catlist
+  //     } else if (this.data.all_miao[i].group == 'dead') {
+  //       this.data.dead_catlist.push(this.data.all_miao[i]) //dead_catlist
+  //     }
+  //   }
+
+  //   //查询在校miao种类
+  //   for (var i = 0; i < this.data.atschool_catList.length; i++) {
+  //     if (this.data.typegroup.includes(this.data.atschool_catList[i].type)) {} else {
+  //       this.data.typegroup.push(this.data.atschool_catList[i].type)
+  //       this.data.typeindex.push({
+  //         "typename": this.data.atschool_catList[i].type,
+  //         "typeurl": this.data.atschool_catList[i].avator_url
+  //       })
+  //       console.log(this.data.typeindex);
+
+  //     }
+  //   }
+  //   for (var i = 0; i < this.data.typegroup; i++) {}
+  //   this.setData({
+  //     atschool_catList: this.data.atschool_catList,
+  //     fostered_catlist: this.data.fostered_catlist,
+  //     unknown_catlist: this.data.unknown_catlist,
+  //     dead_catlist: this.data.dead_catlist,
+  //     typeindex: this.data.typeindex,
+  //   })
+  // })
+
+
+
+
+  // //查询在校miao列表
+  // db.collection("miao").where({
+  //     group: 'atschool'
+  //   }).get().then(res => { //请求成功
+  //     this.setData({
+  //       at_school: res.data
+  //     })
+  // for (var i = 0; i < this.data.at_school.length; i++) {
+  //   if (this.data.typegroup.includes(this.data.at_school[i].type)) {
+
+  //   } else {
+  //     this.data.typegroup.push(this.data.at_school[i].type)
+  //     this.data.avatorgroup.push(this.data.at_school[i].avator_url)
+  //   }
+  // }
+  //     console.log(this.data.typegroup)
+  //     console.log(this.data.avatorgroup)
+
+  //   })
+  //   .catch(err => { //请求失败
+  //     console.log(err)
+  //   })
+
+  //查询数据库中所有的毛色
+  // db.collection("miao").aggregate().group({
+  //     _id: null,
+  //     typegroup: $.addToSet('$type'),
+  //     typeavator: $.addToSet('$type_avator')
+  //   }).end()
+  //   .then(res => { //请求成功
+  //     this.setData({
+  //       typegroup: res.list[0].typegroup
+  //     })
+  //   })
+  //   .catch(err => { //请求失败
+  //     console.log(err)
+  //   })
+
+
+  // //获取毕业miao
+  // db.collection('miao').where({
+  //   group: 'fostered'
+  // }).get().then(res => {
+  //   this.setData({
+  //     fostered_catlist: res.data
+  //   })
+  // })
+  // //获取休学miao
+  // db.collection('miao').where({
+  //   group: 'unknown'
+  // }).get().then(res => {
+  //   this.setData({
+  //     unknown_catlist: res.data
+  //   })
+  // })
+  // //获取喵星miao
+  // db.collection('miao').where({
+  //   group: 'dead'
+  // }).get().then(res => {
+  //   this.setData({
+  //     dead_catlist: res.data
+  //   })
+  // })
+},
+
+
+
+
+//转发此页面的设置
+onShareAppMessage: function (ops) {
+  if (ops.from === 'button') {
+    // 来自页面内转发按钮
+    console.log(ops.target)
+  }
+  return {
+    path: 'pages/index/index', // 路径，传递参数到指定页面。
+    success: function (res) {
+      // 转发成功
+      console.log("转发成功:" + JSON.stringify(res));
+    },
+    fail: function (res) {
+      // 转发失败
+      console.log("转发失败:" + JSON.stringify(res));
+    }
+  }
+},
+
+// 转发到朋友圈
+onShareTimeline: function (res) {
+  if (ops.from === 'button') {
+    // 来自页面内转发按钮
+    console.log(ops.target)
+  }
+  return {
+    path: 'pages/index/index', // 路径，传递参数到指定页面。
+    success: function (res) {
+      // 转发成功
+      console.log("转发成功:" + JSON.stringify(res));
+    },
+    fail: function (res) {
+      // 转发失败
+      console.log("转发失败:" + JSON.stringify(res));
+    }
+  }
+},
+
+// 搜索栏输入名字后页面跳转
+bindconfirmT: function (e) {
+  if (e.detail.value) {
+    wx.navigateTo({
+      url: '/pages/cat/cat?name=' + e.detail.value
+    })
+  }
+},
+copyTBL: function (e) {
+  var self = this;
+  wx.setClipboardData({
+    data: '北大猫协', //需要复制的内容
+    success: function (res) {
+      // self.setData({copyTip:true}),
+
+    }
+  })
+},
 
 })
